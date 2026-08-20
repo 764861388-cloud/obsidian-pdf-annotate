@@ -1,0 +1,9 @@
+{
+  "id": "doc-annotate",
+  "name": "PDF批注 PDF Annotate",
+  "version": "0.2.36",
+  "minAppVersion": "1.4.0",
+  "description": "为库内 PDF、EPUB 文档添加高亮/下划线/删除线、自由画笔与页外批注框，支持多步撤销重做与 PDF 带批注导出副本（EPUB 仅本地查看）。",
+  "author": "WorkBuddy",
+  "isDesktopOnly": true
+}

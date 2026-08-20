@@ -1,0 +1,747 @@
+/* ===================== 文档批注 Doc Annotate ===================== */
+
+/* ---- 顶部批注工具栏 ---- */
+.da-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px 10px;
+  background: var(--background-secondary, #f3f3f3);
+  border-bottom: 1px solid var(--background-modifier-border, #ddd);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  user-select: none;
+}
+.da-toolbar .da-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-right: 6px;
+  margin-right: 2px;
+  border-right: 1px solid var(--background-modifier-border, #ddd);
+}
+.da-toolbar .da-group:last-child {
+  border-right: none;
+}
+.da-tool-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 6px;
+  border-radius: 6px;
+  border: 1px solid var(--background-modifier-border, #ccc);
+  background: var(--background-primary, #fff);
+  color: var(--text-normal, #333);
+  cursor: pointer;
+  font-size: 13px;
+}
+.da-tool-btn:hover {
+  background: var(--background-modifier-hover, #eee);
+}
+.da-tool-btn.active {
+  background: var(--interactive-accent, #4a78d6);
+  color: var(--text-on-accent, #fff);
+  border-color: var(--interactive-accent, #4a78d6);
+}
+.da-tool-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.da-tool-label {
+  font-size: 12px;
+  color: var(--text-muted, #888);
+  margin-right: 2px;
+}
+
+/* ---- 5 色预设选择器 ---- */
+.da-color-row {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.da-color-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.da-color-dot.active {
+  border-color: var(--text-normal, #333);
+}
+.da-thickness {
+  width: 60px;
+}
+
+/* ---- 文档视图主体 ---- */
+.da-view {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--background-primary, #fff);
+  position: relative;
+}
+.da-doc-scroll {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+}
+
+/* PDF 页面容器 */
+.da-pdf-page {
+  position: relative;
+  margin: 12px auto;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  background: #fff;
+}
+.da-pdf-page canvas {
+  display: block;
+}
+.da-annot-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+.da-annot-layer .da-hit {
+  pointer-events: auto;
+}
+
+/* 文本批注（高亮/下划线/删除线） */
+.da-annot {
+  position: absolute;
+  pointer-events: none;
+}
+.da-highlight {
+  mix-blend-mode: multiply;
+  opacity: 0.45;
+}
+.da-line {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* 画笔层 */
+.da-pen-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.da-mode-pen .da-pen-canvas,
+.da-mode-pen .da-annot-layer {
+  pointer-events: auto;
+  cursor: crosshair;
+}
+.da-mode-eraser .da-pen-canvas {
+  pointer-events: auto;
+  cursor: cell;
+}
+.da-mode-pen .da-annot-layer,
+.da-mode-eraser .da-annot-layer {
+  pointer-events: auto;
+}
+
+/* 页外浮动批注框 */
+.da-box {
+  position: absolute;
+  min-width: 140px;
+  min-height: 60px;
+  background: var(--background-primary, #fff);
+  border: 2px solid #f1c40f;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+  pointer-events: auto;
+}
+.da-box.selected {
+  outline: 2px dashed var(--interactive-accent, #4a78d6);
+  outline-offset: 2px;
+}
+.da-box-header {
+  height: 18px;
+  cursor: move;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+  font-size: 10px;
+  color: #fff;
+  background: rgba(0,0,0,0.15);
+  border-radius: 4px 4px 0 0;
+}
+.da-box-del {
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0 4px;
+}
+.da-box-text {
+  flex: 1;
+  border: none;
+  outline: none;
+  resize: none;
+  padding: 4px 6px;
+  font-size: 13px;
+  background: transparent;
+  color: var(--text-normal, #222);
+  font-family: var(--font-text, sans-serif);
+}
+.da-box-resize {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 14px;
+  height: 14px;
+  cursor: nwse-resize;
+  background: linear-gradient(135deg, transparent 50%, var(--text-muted, #aaa) 50%);
+}
+
+/* 文本选中后浮出的小工具栏 */
+.da-selection-pop {
+  position: absolute;
+  z-index: 50;
+  display: flex;
+  gap: 4px;
+  background: var(--background-primary, #fff);
+  border: 1px solid var(--background-modifier-border, #ccc);
+  border-radius: 6px;
+  padding: 4px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  white-space: nowrap;
+}
+.da-selection-pop button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.da-selection-pop button:hover {
+  background: var(--background-modifier-hover, #eee);
+}
+
+/* PDF 文本层（用于原生文本选中，文字透明，仅作选区载体） */
+.da-text-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  color: transparent;
+  pointer-events: auto;
+  mix-blend-mode: multiply;
+  z-index: 2;
+}
+.da-text-layer > span {
+  color: transparent;
+}
+.da-text-layer ::selection {
+  background: rgba(84, 160, 255, 0.4);
+}
+
+/* 页外批注框层（覆盖整个滚动内容区，框体可超出页面） */
+.da-box-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 25;
+}
+
+/* 阅读模式：禁止批注交互，但仍可滚动/查看 */
+.da-read-mode .da-pen-canvas,
+.da-read-mode .da-annot-layer,
+.da-read-mode .da-box-layer {
+  pointer-events: none !important;
+}
+.da-read-mode .da-box {
+  pointer-events: none;
+}
+.da-read-mode .da-box-readonly {
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+}
+.da-read-mode .da-text-layer {
+  cursor: text;
+}
+
+/* EPUB 视图容器 */
+.da-epub-frame-wrap {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+.da-epub-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 15;
+}
+.da-mode-pen .da-epub-overlay {
+  pointer-events: auto;
+  cursor: crosshair;
+}
+.da-mode-eraser .da-epub-overlay {
+  pointer-events: auto;
+  cursor: cell;
+}
+
+.da-loading {
+  padding: 40px;
+  text-align: center;
+  color: var(--text-muted, #888);
+}
+
+/* ============ 原生 PDF 阅读器叠加层（doc-annotate） ============ */
+
+/* 注入到原生 PDF 工具栏的控件组（挂载于工具栏中间，flex 下 margin:0 auto 水平居中） */
+.da-native-controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin: 0 auto;
+  padding: 0 4px;
+}
+.da-native-controls .da-native-tool {
+  padding: 3px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted, #888);
+}
+.da-native-controls .da-native-tool:hover {
+  color: var(--text-normal, #333);
+  background: var(--background-modifier-hover, rgba(0,0,0,0.06));
+}
+.da-native-controls .da-native-tool.is-active {
+  color: var(--text-on-accent, #fff);
+  background: var(--interactive-accent, #4a6cf7);
+}
+.da-native-controls .da-native-tool:disabled,
+.da-native-controls .da-native-tool[disabled] {
+  opacity: 0.35;
+  pointer-events: none;
+}
+.da-native-colors {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin: 0 4px;
+}
+.da-native-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  display: inline-block;
+  box-sizing: border-box;
+}
+.da-native-swatch.is-active {
+  border-color: var(--text-normal, #333);
+  box-shadow: 0 0 0 1px var(--background-primary, #fff);
+}
+.da-native-width {
+  width: 56px;
+  height: 18px;
+  margin: 0 4px;
+  accent-color: var(--interactive-accent, #4a6cf7);
+}
+
+/* 高亮/装饰层：插在原生 textLayer 之下 */
+.da-native-hl-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  /* 容器级 multiply 混合：整个高亮层作为一层与下方 PDF 位图相乘。
+     文字（深色）× 色块 = 深色 → 文字保持清晰；白底 × 色块 = 底色。
+     注意：混合模式必须放在【容器】上——放在子元素（mark）上会被本容器
+     （z-index 创建层叠上下文）困住，无法穿透到 canvas，退化成普通半透明盖字。 */
+  mix-blend-mode: multiply;
+}
+.da-native-mark {
+  position: absolute;
+  pointer-events: none;
+}
+.da-native-mark--highlight {
+  background: var(--da-color, #ffd54a);
+  opacity: 0.6;
+}
+.da-native-mark--underline {
+  background: transparent;
+  border-bottom: 2px solid var(--da-color, #f00);
+}
+.da-native-mark--strike {
+  background: transparent;
+}
+.da-native-mark--strike::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 2px solid var(--da-color, #f00);
+}
+
+/* 画笔 canvas：默认不接管指针，仅在画笔/橡皮擦模式下可交互 */
+.da-native-pen-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+.da-native-pen-mode .da-native-pen-canvas {
+  pointer-events: auto;
+  cursor: crosshair;
+}
+.da-native-eraser-mode .da-native-pen-canvas {
+  pointer-events: auto;
+  cursor: cell;
+}
+
+/* 页边批注框层：铺满阅读视口，框体可超出页面 */
+.da-native-boxes {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  z-index: 30;
+}
+.da-native-box {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+  min-width: 60px;
+  min-height: 44px;
+  background: var(--background-primary, #fff);
+  border: 2px solid var(--da-color, #ffd54a);
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.22);
+  font-size: 12px;
+  overflow: hidden;
+}
+.da-native-box-head {
+  height: 20px;
+  cursor: move;
+  background: var(--da-color, #ffd54a);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-radius: 4px 4px 0 0;
+  user-select: none;
+  flex: none;
+}
+.da-native-box-del {
+  color: rgba(0, 0, 0, 0.65);
+  padding: 0 6px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+}
+.da-native-box-del:hover {
+  color: #fff;
+}
+.da-native-box-flip {
+  color: rgba(0, 0, 0, 0.6);
+  padding: 0 6px;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 20px;
+  user-select: none;
+}
+.da-native-box-flip:hover {
+  color: #fff;
+}
+.da-native-box-text {
+  width: 100%;
+  flex: 1;
+  border: none;
+  background: transparent;
+  resize: none;
+  padding: 4px 6px;
+  font-size: 12px;
+  color: var(--text-normal, #333);
+  min-height: 0;
+}
+.da-native-box-text:focus {
+  outline: none;
+}
+.da-native-box-resize {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 14px;
+  height: 14px;
+  cursor: nwse-resize;
+  background: linear-gradient(135deg, transparent 50%, var(--da-color, #ffd54a) 50%);
+}
+.da-native-read-mode .da-native-boxes {
+  pointer-events: none;
+}
+.da-native-read-mode .da-native-box {
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+/* 文本选中后的浮出工具栏（fixed 定位，不被滚动容器裁剪） */
+.da-native-selection-pop {
+  position: fixed;
+  z-index: 10000;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 6px 8px;
+  background: var(--background-primary, #fff);
+  border: 1px solid var(--background-modifier-border, #ccc);
+  border-radius: 8px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+}
+.da-native-selection-pop .da-native-style-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--text-normal, #333);
+  white-space: nowrap;
+}
+.da-native-selection-pop .da-native-style-btn:hover {
+  background: var(--background-modifier-hover, rgba(0, 0, 0, 0.06));
+}
+.da-native-selection-pop .da-native-cancel {
+  color: var(--text-muted, #888);
+  padding: 4px 6px;
+}
+/* 「取消批注」按钮：红色警示色 */
+.da-native-selection-pop .da-native-unannotate-btn {
+  color: #e05252;
+  border: 1px solid rgba(224, 82, 82, 0.4);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+.da-native-selection-pop .da-native-unannotate-btn:hover {
+  color: #fff;
+  background: #e05252;
+}
+.da-native-selection-pop .da-native-pop-main,
+.da-native-selection-pop .da-native-pop-sub {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.da-native-selection-pop .da-native-pop-hint {
+  font-size: 12px;
+  color: var(--text-muted, #888);
+  padding: 0 4px;
+  white-space: nowrap;
+}
+.da-native-selection-pop .da-native-annotate-btn {
+  font-weight: 700;
+  border-left: 1px solid var(--background-modifier-border, #ccc);
+}
+
+/* 粗细滑块 + 数值显示 */
+.da-native-width-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin: 0 4px;
+  position: relative;
+}
+.da-native-width-val {
+  min-width: 18px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted, #888);
+  background: var(--background-secondary, rgba(0,0,0,0.05));
+  border-radius: 3px;
+  padding: 1px 3px;
+}
+
+/* 滑块下方的尺寸预览圆（fixed 到 body，滑动时显示，直径 = 当前画笔/橡皮擦大小） */
+.da-native-width-preview {
+  position: fixed;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--text-muted, #888);
+  background: rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+  display: none;
+  z-index: 99999;
+  box-sizing: border-box;
+}
+
+/* 橡皮擦圆形光标（PS 式） */
+.da-native-eraser-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  outline: 1px solid rgba(0, 0, 0, 0.55);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  display: none;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0);
+}
+.da-native-eraser-mode .da-native-pen-canvas {
+  cursor: none;
+}
+/* 画笔笔刷预览圆点：fixed 挂 body、圆心=鼠标点、直径=画笔粗细、颜色=当前画笔色 */
+.da-native-pen-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4a6cf7;
+  outline: 1px solid rgba(0, 0, 0, 0.55);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.65);
+  pointer-events: none;
+  z-index: 99999;
+  display: none;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+}
+.da-native-pen-mode .da-native-pen-canvas {
+  cursor: none;
+}
+/* 擦除中：光标变实心，明确"按住=擦除中"的反馈 */
+.da-native-eraser-cursor.is-active {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(0, 0, 0, 0.85);
+  outline-color: rgba(255, 255, 255, 0.6);
+}
+
+/* 连接线层：批注框 ↔ 文字标记（悬停显示） */
+.da-native-links {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 28;
+  overflow: visible;
+}
+
+/* 批注确认对话框（WPS 风格：颜色 + 标记类型 + 文本 + 确认/取消） */
+.da-annotate-dialog .da-annotate-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+.da-annotate-dialog .da-annotate-label {
+  font-size: 12px;
+  color: var(--text-muted, #888);
+  flex: none;
+}
+.da-annotate-dialog .da-annotate-type-wrap {
+  display: flex;
+  gap: 6px;
+}
+.da-annotate-dialog .da-annotate-type-btn {
+  padding: 4px 12px;
+  border: 1px solid var(--background-modifier-border, #ccc);
+  border-radius: 6px;
+  background: var(--background-primary, #fff);
+  color: var(--text-normal, #333);
+  cursor: pointer;
+  font-size: 13px;
+}
+.da-annotate-dialog .da-annotate-type-btn:hover {
+  background: var(--background-modifier-hover, rgba(0, 0, 0, 0.06));
+}
+.da-annotate-dialog .da-annotate-type-btn.is-active {
+  background: var(--interactive-accent, #4a6cf7);
+  color: var(--text-on-accent, #fff);
+  border-color: var(--interactive-accent, #4a6cf7);
+}
+.da-annotate-dialog .da-annotate-text {
+  width: 100%;
+  min-height: 80px;
+  border: 1px solid var(--background-modifier-border, #ccc);
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+  background: var(--background-primary, #fff);
+  color: var(--text-normal, #333);
+}
+.da-annotate-dialog .da-annotate-text:focus {
+  outline: none;
+  border-color: var(--interactive-accent, #4a6cf7);
+}
+.da-annotate-dialog .da-annotate-btn-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+/* 批注框：与文字标记关联的徽标 */
+.da-native-box-ref {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-left: 5px;
+  flex: none;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: var(--ref-color, #ffd54a);
+}
+.da-native-box-ref--highlight {
+  --ref-color: #ffd54a;
+}
+.da-native-box-ref--underline {
+  --ref-color: #7bed9f;
+}
+.da-native-box-ref--strike {
+  --ref-color: #ff6b6b;
+}
+
+/* 关联文字标记闪烁（点击批注框徽标跳转时） */
+.da-native-mark--flash {
+  animation: da-flash 1.2s ease;
+}
+@keyframes da-flash {
+  0% { outline: 3px solid var(--interactive-accent, #4a6cf7); outline-offset: 1px; }
+  100% { outline: 3px solid transparent; outline-offset: 1px; }
+}
+
