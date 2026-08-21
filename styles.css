@@ -397,14 +397,14 @@
 .da-native-mark--underline {
   background: transparent;
 }
-/* 下划线画在 rect 底部上方（约 18% 处 ≈ 字形底线附近），而不是 rect 最底部——
-   line box 含 descent/行距，画在底部会"飘"在文字下方 */
+/* 下划线画在行框底部上方固定 2px（行框 bottom = 行底，稳定不飘；
+   不用百分比——字形/行框高度在不同段落会变，百分比会导致线位置飘） */
 .da-native-mark--underline::after {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 18%;
+  bottom: 2px;
   border-bottom: 2px solid var(--da-color, #f00);
 }
 .da-native-mark--strike {
