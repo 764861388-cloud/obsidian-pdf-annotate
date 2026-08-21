@@ -1098,3 +1098,93 @@
 .da-toolbar-page .da-toolbar-page-total {
   color: var(--text-muted, #888);
 }
+
+/* ---- 正文搜索（EPUB 自定义工具栏） ---- */
+.da-toolbar .da-toolbar-search {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 4px;
+  background: var(--background-primary, #fff);
+  border: 1px solid var(--background-modifier-border, #ccc);
+  border-radius: 6px;
+}
+.da-toolbar .da-toolbar-search-icon {
+  font-size: 12px;
+  opacity: 0.6;
+  line-height: 1;
+}
+.da-toolbar .da-toolbar-search-input {
+  width: 120px;
+  height: 24px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text-normal, #333);
+  font-size: 13px;
+}
+.da-toolbar .da-toolbar-search-input::placeholder {
+  color: var(--text-faint, #aaa);
+}
+.da-toolbar .da-toolbar-search .da-tool-btn {
+  min-width: 22px;
+  height: 24px;
+  padding: 0 3px;
+  font-size: 12px;
+}
+.da-toolbar .da-toolbar-search-count {
+  min-width: 34px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted, #888);
+}
+
+/* ---- 正文搜索（PDF 原生工具栏注入） ---- */
+.da-native-controls .da-native-search {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 4px;
+  padding: 2px 4px;
+  background: var(--background-primary, #fff);
+  border: 1px solid var(--background-modifier-border, #ccc);
+  border-radius: 4px;
+}
+.da-native-controls .da-native-search-input {
+  width: 120px;
+  height: 24px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text-normal, #333);
+  font-size: 12px;
+}
+.da-native-controls .da-native-search-input::placeholder {
+  color: var(--text-faint, #aaa);
+}
+.da-native-controls .da-native-search .da-native-tool {
+  min-width: 22px;
+  height: 24px;
+}
+.da-native-controls .da-native-search-count {
+  min-width: 34px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted, #888);
+}
+
+/* ---- 搜索命中高亮 ---- */
+.da-search-hit {
+  background: #ffe066 !important;
+  color: #222 !important;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px #e6b800;
+}
+/* PDF 侧：命中 span 加 class（pdf.js textLayer 内） */
+.textLayer span.da-search-hit,
+.text-layer span.da-search-hit {
+  background: rgba(255, 224, 102, 0.85) !important;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px #e6b800 !important;
+}
+
