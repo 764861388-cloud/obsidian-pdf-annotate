@@ -1173,18 +1173,22 @@
   color: var(--text-muted, #888);
 }
 
-/* ---- 搜索命中高亮 ---- */
+/* ---- 搜索命中高亮（全局，PDF 侧 / 非 shadow 区域使用） ---- */
 .da-search-hit {
-  background: #ffe066 !important;
-  color: #222 !important;
+  background: #ff5630 !important;
+  color: #fff !important;
   border-radius: 2px;
-  box-shadow: 0 0 0 1px #e6b800;
+  box-shadow: 0 0 0 1px #b71c00 !important;
+  font-weight: 600;
+  padding: 0 1px;
 }
 /* PDF 侧：命中 span 加 class（pdf.js textLayer 内） */
 .textLayer span.da-search-hit,
 .text-layer span.da-search-hit {
-  background: rgba(255, 224, 102, 0.85) !important;
+  background: #ff5630 !important;
+  color: #fff !important;
   border-radius: 2px;
-  box-shadow: 0 0 0 1px #e6b800 !important;
+  box-shadow: 0 0 0 1px #b71c00 !important;
+  font-weight: 600;
 }
 
