@@ -386,24 +386,6 @@
      （z-index 创建层叠上下文）困住，无法穿透到 canvas，退化成普通半透明盖字。 */
   mix-blend-mode: multiply;
 }
-/* ★ PDF 标记（包裹方案）：span 直接包在 text layer 文字上，text-decoration 由浏览器
-   按字形渲染（与 EPUB 同款），下划线/删除线/高亮位置永远正确 */
-.da-pdf-mark {
-  border-radius: 2px;
-}
-.da-pdf-mark--highlight {
-  /* 背景色由 inline style 设置（颜色+99 半透明），不透明化文字 */
-}
-.da-pdf-mark--underline {
-  text-decoration: underline;
-  text-decoration-color: var(--da-mark-color, #f00);
-  text-decoration-thickness: 2px;
-}
-.da-pdf-mark--strike {
-  text-decoration: line-through;
-  text-decoration-color: var(--da-mark-color, #f00);
-  text-decoration-thickness: 2px;
-}
 .da-native-mark {
   position: absolute;
   pointer-events: none;
