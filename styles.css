@@ -712,6 +712,18 @@
   outline: none;
   border-color: var(--interactive-accent, #4a6cf7);
 }
+/* 纯标记编辑：「添加文字批注」开关行 */
+.da-annotate-dialog .da-annotate-addnote-chk {
+  margin: 0;
+  cursor: pointer;
+}
+.da-annotate-dialog .da-annotate-hint {
+  font-size: 11px;
+  color: var(--text-faint, #bbb);
+}
+.da-annotate-dialog .da-annotate-text-wrap {
+  margin: 4px 0 0;
+}
 .da-annotate-dialog .da-annotate-btn-row {
   display: flex;
   justify-content: flex-end;
