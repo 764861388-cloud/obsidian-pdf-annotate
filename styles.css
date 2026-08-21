@@ -1003,3 +1003,12 @@
   min-width: 18px;
   text-align: center;
 }
+/* EPUB 页码显示（当前页 / 总页数） */
+.da-toolbar-page {
+  font-size: 12px;
+  color: var(--text-muted, #888);
+  min-width: 56px;
+  text-align: center;
+  user-select: none;
+  white-space: nowrap;
+}
