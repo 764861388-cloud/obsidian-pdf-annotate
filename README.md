@@ -23,8 +23,8 @@
 
 ### 方式二：手动安装
 
-1. 到本仓库 [Releases](https://github.com/764861388-cloud/obsidian-pdf-annotate/releases) 下载最新版 `doc-annotate-<version>.zip`；
-2. 解压得到 `main.js`、`manifest.json`、`styles.css` 三个文件；
+1. 到本仓库 [Releases](https://github.com/764861388-cloud/obsidian-pdf-annotate/releases) 下载最新版 `PDF-Annotate-<version>.zip`；
+2. 解压得到 `PDF Annotate/` 文件夹（内含 main.js、manifest.json、styles.css）；
 3. 放入你的 Obsidian 仓库的 `.obsidian/plugins/doc-annotate/` 目录；
 4. 设置 → 第三方插件 → 启用 **PDF批注 PDF Annotate**。
 
