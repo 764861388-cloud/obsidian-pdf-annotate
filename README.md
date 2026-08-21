@@ -66,8 +66,14 @@
 | `styles.css` | 插件样式 |
 | `versions.json` | 版本 → 最低 Obsidian 版本映射 |
 | `README.md` | 本说明文档 |
-| `LICENSE` | MIT 授权 |
+| `LICENSE` | CC BY-NC 4.0 授权（禁止商用） |
 
 ## 许可
 
-MIT License © 2026 ya
+本插件采用 **知识共享署名-非商业性使用 4.0 国际许可协议（CC BY-NC 4.0）**，
+**禁止任何商业用途**（包括但不限于销售、付费分发、在商业产品/服务中集成并收费）。
+
+Creative Commons Attribution-NonCommercial 4.0 International Public License
+© 2026 ya
+
+完整条款见仓库内 `LICENSE` 文件及 https://creativecommons.org/licenses/by-nc/4.0/legalcode
