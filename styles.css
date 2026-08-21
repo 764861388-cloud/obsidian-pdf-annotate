@@ -900,6 +900,39 @@
   box-shadow: 0 0 0 2px var(--interactive-accent, #7c6cd6), 0 2px 8px rgba(0, 0, 0, 0.15);
   background: var(--background-modifier-hover, #f0f0f0);
 }
+/* 卡片右键菜单（修改批注 / 删除批注） */
+.da-epub-ctx-menu {
+  position: fixed;
+  z-index: 2147483647;
+  min-width: 130px;
+  background: var(--background-primary, #fff);
+  border: 1px solid var(--background-modifier-border, #ddd);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+}
+.da-epub-ctx-menu button {
+  border: none;
+  background: transparent;
+  text-align: left;
+  padding: 7px 10px;
+  font-size: 13px;
+  color: var(--text-normal, #333);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.da-epub-ctx-menu button:hover {
+  background: var(--background-modifier-hover, #eee);
+}
+.da-epub-ctx-menu button.da-danger {
+  color: var(--text-error, #e93147);
+}
+/* 浮窗/菜单里的危险操作按钮（取消批注 / 删除批注） */
+.da-native-style-btn.da-danger {
+  color: var(--text-error, #e93147);
+}
 .da-epub-note-color {
   flex: none;
   width: 4px;
