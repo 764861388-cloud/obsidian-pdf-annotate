@@ -895,6 +895,11 @@
 .da-epub-note-card:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
+/* 点正文高亮 → 跳转到对应卡片时的短暂高亮反馈 */
+.da-epub-note-card.is-jump {
+  box-shadow: 0 0 0 2px var(--interactive-accent, #7c6cd6), 0 2px 8px rgba(0, 0, 0, 0.15);
+  background: var(--background-modifier-hover, #f0f0f0);
+}
 .da-epub-note-color {
   flex: none;
   width: 4px;
