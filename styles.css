@@ -828,6 +828,59 @@
   text-align: center;
   padding: 24px 8px;
 }
+/* EPUB 侧边批注面板：文件夹式分组（高亮/下划线/删除线/文字批注） */
+.da-epub-group-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  background: var(--background-primary, #fff);
+  border: 1px solid var(--background-modifier-border, #e0e0e0);
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-normal, #333);
+  transition: background 0.15s;
+}
+.da-epub-group-header:hover {
+  background: var(--background-modifier-hover, #eee);
+}
+.da-epub-group-header.is-empty {
+  opacity: 0.55;
+}
+.da-epub-group-arrow {
+  font-size: 10px;
+  color: var(--text-muted, #888);
+  transition: transform 0.15s;
+}
+.da-epub-group-header.is-open .da-epub-group-arrow {
+  transform: rotate(90deg);
+}
+.da-epub-group-name {
+  flex: 1;
+  min-width: 0;
+}
+.da-epub-group-count {
+  flex: none;
+  font-size: 11px;
+  color: var(--text-muted, #888);
+  background: var(--background-modifier-border, #e0e0e0);
+  border-radius: 10px;
+  padding: 1px 7px;
+}
+.da-epub-group-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 2px;
+}
+.da-epub-group-empty {
+  color: var(--text-faint, #bbb);
+  font-size: 11px;
+  padding: 4px 8px;
+}
 .da-epub-note-card {
   display: flex;
   gap: 8px;
