@@ -1003,32 +1003,46 @@
   min-width: 18px;
   text-align: center;
 }
-/* EPUB 页码显示（当前页 / 总页数） */
+/* EPUB 页码控件（对齐 PDF 原生页码：当前页=可编辑输入框，回车跳转） */
 .da-toolbar-page {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  min-width: 62px;
+  justify-content: center;
   font-size: 12px;
   color: var(--text-muted, #888);
-  min-width: 56px;
-  text-align: center;
   user-select: none;
   white-space: nowrap;
 }
-/* 跳转到指定页对话框 */
-.da-goto-page-modal .da-goto-page-hint {
-  font-size: 12px;
-  color: var(--text-muted, #888);
-  margin: 4px 0 8px;
-}
-.da-goto-page-modal .da-goto-page-input {
-  width: 100%;
+.da-toolbar-page .da-toolbar-page-cur {
+  width: 36px;
   box-sizing: border-box;
-  padding: 6px 8px;
-  font-size: 14px;
-  border: 1px solid var(--background-modifier-border, #ccc);
-  border-radius: 6px;
-  background: var(--background-primary, #fff);
+  text-align: center;
+  font-size: 12px;
   color: var(--text-normal, #333);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 1px 2px;
+  -moz-appearance: textfield;
 }
-.da-goto-page-modal .da-goto-page-input:focus {
+.da-toolbar-page .da-toolbar-page-cur::-webkit-outer-spin-button,
+.da-toolbar-page .da-toolbar-page-cur::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.da-toolbar-page .da-toolbar-page-cur:hover {
+  border-color: var(--background-modifier-border, #ccc);
+}
+.da-toolbar-page .da-toolbar-page-cur:focus {
   outline: none;
   border-color: var(--interactive-accent, #4a6cf7);
+  background: var(--background-primary, #fff);
+}
+.da-toolbar-page .da-toolbar-page-sep {
+  color: var(--text-faint, #bbb);
+}
+.da-toolbar-page .da-toolbar-page-total {
+  color: var(--text-muted, #888);
 }
