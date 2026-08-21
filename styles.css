@@ -744,7 +744,22 @@
   margin: 8px 0 12px;
 }
 .da-annotate-dialog .da-note-block .da-annotate-label {
-  display: inline;
+  display: block;
+  margin-bottom: 4px;
+}
+.da-annotate-dialog .da-note-empty {
+  color: var(--text-muted, #888);
+  font-size: 13px;
+  padding: 8px 10px;
+  background: var(--background-secondary, #f3f3f3);
+  border: 1px dashed var(--background-modifier-border, #ddd);
+  border-radius: 6px;
+}
+.da-annotate-dialog .da-annotate-note-label {
+  display: block;
+  margin: 6px 0 4px;
+  font-size: 12px;
+  color: var(--text-muted, #888);
 }
 .da-annotate-dialog .da-note-content {
   margin-top: 4px;
