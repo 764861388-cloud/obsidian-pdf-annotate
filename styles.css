@@ -1173,22 +1173,23 @@
   color: var(--text-muted, #888);
 }
 
-/* ---- 搜索命中高亮（全局，PDF 侧 / 非 shadow 区域使用） ---- */
-.da-search-hit {
-  background: #ff5630 !important;
-  color: #fff !important;
-  border-radius: 2px;
-  box-shadow: 0 0 0 1px #b71c00 !important;
-  font-weight: 600;
-  padding: 0 1px;
+/* ---- 搜索命中蓝底（PDF 侧覆盖层方案：挂在该 pageEl 内，随页滚动不乱飞） ---- */
+.da-search-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3; /* 在 textLayer 之上、批注层之下 */
 }
-/* PDF 侧：命中 span 加 class（pdf.js textLayer 内） */
-.textLayer span.da-search-hit,
-.text-layer span.da-search-hit {
-  background: #ff5630 !important;
-  color: #fff !important;
+.da-search-box {
+  position: absolute;
+  /* 半透明高饱和蓝底（hsl(217,90%,52%) ≈ #1a73e8），文字透出来看得见，
+     描边加深蓝让边界更清晰；不覆盖文字本身 */
+  background: hsla(217, 90%, 52%, 0.45) !important;
   border-radius: 2px;
-  box-shadow: 0 0 0 1px #b71c00 !important;
-  font-weight: 600;
+  box-shadow: 0 0 0 1.5px hsl(217, 90%, 38%) !important;
+  mix-blend-mode: multiply;
 }
 
