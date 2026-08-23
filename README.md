@@ -49,6 +49,7 @@
 - **EPUB 阅读区 Ctrl+滚轮缩放（新增）**：像 PDF 一样用 Ctrl+滚轮放大缩小正文。改 EPUB 正文字号（CSS 变量 `--da-epub-font-size`），不用 `transform:scale`（避免批注 Overlay 错位）；同时复用 Obsidian 原生阅读字号滑块（两套互不冲突）。
 - **PDF 已批注区域右键功能框（新增）**：在高亮/下划线/删除线、画笔笔迹、批注框上点右键弹功能框（之前只有选取文字能弹）。可改颜色、切换高亮/下划线/删除线、取消批注、编辑/删除批注框。
 - **PDF 单击强制新标签修复**：修复 EPUB/PDF 链接在新标签打开的异常。
+- **PDF 右键功能框后台挂久失效修复（v3）**：旧版右键回调用闭包捕获的 `canvas`/`pageEl` 算坐标，Obsidian 后台挂久后原生渲染器重建画布或 layout 未稳定，导致 `getBoundingClientRect()` 返回脏值、mark/pen 命中判定全算到 0 附近，右键弹不出（关文件重开才恢复）。v3 改为右键那一刻从 `ev.target` 实时定位存活页面元素，命中基准用 `.da-native-hl-layer` 自身 rect（与标记漂移修复同源），并加脏值护栏，彻底不依赖闭包旧引用。BUILD 标记 `PDF-CTX-MENU-v3`。
 
 ### v0.2.37
 相对 v0.2.36 的主要更新：
